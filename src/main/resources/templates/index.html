@@ -16,23 +16,31 @@
     <div id="AES__wrap">
 
         <h1>암호화</h1>
-        <form id="AES_ENCODE">
+
+        <hr>
+
+        <h2>AES256 암호화</h2>
+        <form id="AES_ENCODE" action="/aes256_encode" method="POST">
             <label for="AES__input">암호화할 내용</label>
-            <select name="AES__select" id="AES__select">
+            <select  id="AES__select">
                 <option value="AES">AES</option>
                 <option value="RSA">RSA</option>
             </select>
-            <input type="text" id="AES__input" placeholder="암호화할 내용을 입력해주세요.">
+            <input type="text" id="AES__input" name="inputText" placeholder="암호화할 내용을 입력해주세요.">
             <button type="submit" id="AES__submit">전송</button>
         </form>
 
-        <form id="AES_DECODE">
+        <h2>AES256 복호화</h2>
+        <form id="AES_DECODE" method="POST" action="AES256_decode">
             <label for="AES__input">복호화할 내용</label>
-            <input type="text" id="AES__input_de" placeholder="복호화할 내용을 입력해주세요.">
+            <input type="text" id="AES__input_de" name="inputText"  placeholder="복호화할 내용을 입력해주세요.">
             <button type="submit" id="AES__submit_de">전송</button>
         </form>
 
-        <h2>복호화</h2>
+        <div id="AES_result">
+            <p th:text="${result}"></p>
+        </div>
+
 
     </div>
 
