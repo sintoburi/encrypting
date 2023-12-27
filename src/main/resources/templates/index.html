@@ -2,45 +2,79 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>암호화</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 
 <header>
-헤더자리
+    <div id="header_wrap">
+        <p class="header_text">Cipher</p>
+    </div>
 </header>
 
 <!--내용은 main에 작성해주세요-->
-<main>
+<main id="wrap">
+    <div id="main_wrap">
 
-    <div id="AES__wrap">
+        <div id="AES__wrap">
 
-        <h1>암호화</h1>
+            <h1>암호화</h1>
+
+            <hr>
+
+            <h2 class="subtitle">AES256</h2>
+
+            <div id="aes_wrap">
+                <div id="AES_encoding_wrap">
+                    <h2 class="three_text"> 암호화</h2>
+                    <form id="AES_ENCODE" action="/aes256_encode" method="POST">
+
+                        <select  class="padding__select" name="padding">
+                            <option value="PKCS5Padding">PKCS5Padding</option>
+                            <option value="ISO10126Padding">ISO10126Padding</option>
+                            <option value="NoPadding">NoPadding</option>
+                        </select>
+                        <input type="text" id="AES__input" name="inputText" placeholder="암호화할 내용을 입력해주세요.">
+                        <button type="submit" id="AES__submit">전송</button>
+                    </form>
+                    <p class="result_box" th:text="${en_result}"></p>
+                </div>
+
+                <div id="AES_decoding_wrap">
+                    <h2 class="three_text">복호화</h2>
+                    <form id="AES_DECODE" method="POST" action="AES256_decode">
+                        <select  class="padding__select" name="padding">
+                            <option value="PKCS5Padding">PKCS5Padding</option>
+                            <option value="ISO10126Padding">ISO10126Padding</option>
+                            <option value="NoPadding">NoPadding</option>
+                        </select>
+
+                        <input type="text" id="AES__input_de" name="inputText"  placeholder="복호화할 내용을 입력해주세요.">
+                        <button type="submit" id="AES__submit_de">전송</button>
+                    </form>
+                    <p class="result_box" th:text="${de_result}"></p>
+
+                </div>
+            </div>
+            <div id="AES_result">
+                <p th:text="${result}"></p>
+            </div>
+
+
+        </div>
 
         <hr>
 
-        <h2>AES256 암호화</h2>
-        <form id="AES_ENCODE" action="/aes256_encode" method="POST">
-            <label for="AES__input">암호화할 내용</label>
-            <select  id="AES__select">
-                <option value="AES">AES</option>
-                <option value="RSA">RSA</option>
-            </select>
-            <input type="text" id="AES__input" name="inputText" placeholder="암호화할 내용을 입력해주세요.">
-            <button type="submit" id="AES__submit">전송</button>
-        </form>
-
-        <h2>AES256 복호화</h2>
-        <form id="AES_DECODE" method="POST" action="AES256_decode">
-            <label for="AES__input">복호화할 내용</label>
-            <input type="text" id="AES__input_de" name="inputText"  placeholder="복호화할 내용을 입력해주세요.">
-            <button type="submit" id="AES__submit_de">전송</button>
-        </form>
-
-        <div id="AES_result">
-            <p th:text="${result}"></p>
+        <div id="sha_wrap">
+            <h2>SHA 암호화</h2>
+            <form action="${pageContext.servletContext.contextPath}/salt" method="POST">
+                <input name="password" type="text">
+                <input type="submit" value="제출하기">
+            </form>
         </div>
-
 
     </div>
 

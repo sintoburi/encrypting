@@ -9,6 +9,10 @@
         select * from aes where num='1';
     </select>
 
+    <insert id="add">
+        INSERT INTO tilon.aes (padding_val, TEXT, result, time, category)
+        VALUES (#{padding_val}, #{inputText}, #{result}, DEFAULT, #{category})
+    </insert>
 
 
 </mapper>
