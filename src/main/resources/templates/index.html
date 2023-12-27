@@ -13,6 +13,29 @@
 <!--내용은 main에 작성해주세요-->
 <main>
 
+    <div id="AES__wrap">
+
+        <h1>암호화</h1>
+        <form id="AES_ENCODE">
+            <label for="AES__input">암호화할 내용</label>
+            <select name="AES__select" id="AES__select">
+                <option value="AES">AES</option>
+                <option value="RSA">RSA</option>
+            </select>
+            <input type="text" id="AES__input" placeholder="암호화할 내용을 입력해주세요.">
+            <button type="submit" id="AES__submit">전송</button>
+        </form>
+
+        <form id="AES_DECODE">
+            <label for="AES__input">복호화할 내용</label>
+            <input type="text" id="AES__input_de" placeholder="복호화할 내용을 입력해주세요.">
+            <button type="submit" id="AES__submit_de">전송</button>
+        </form>
+
+        <h2>복호화</h2>
+
+    </div>
+
 </main>
 
 <footer>
