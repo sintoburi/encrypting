@@ -53,13 +53,13 @@ public class AesController {
         } catch (javax.crypto.IllegalBlockSizeException e) {
             e.printStackTrace();
             String err = "입력 길이가 16바이트의 배가 되지 않음";
-            mv.addObject("result", err);
+            mv.addObject("err_msg", err);
 
 
         }catch(Exception e) {
             e.printStackTrace();
             String err = "형용할 수 없는 에러가 발생하였습니다";
-            mv.addObject("result",err);
+            mv.addObject("err_msg",err);
         }
 
         mv.setViewName("index");
@@ -93,18 +93,18 @@ public class AesController {
         } catch (java.lang.IllegalArgumentException e) {
             e.printStackTrace();
             String err = "입력 바이트는 base64 바이트의 경우 2바이트 이상이어야 합니다";
-            mv.addObject("result", err);
+            mv.addObject("err_msg", err);
 
         } catch (javax.crypto.IllegalBlockSizeException e) {
             e.printStackTrace();
             String err = "패딩된 암호로 복호화할 때 입력 길이는 16의 배수여야 합니다";
-            mv.addObject("result", err);
+            mv.addObject("err_msg", err);
 
         } catch (Exception e){
             e.printStackTrace();
             System.out.println("ERROR!!");
             String err = "형용할 수 없는 에러가 발생했습니다";
-            mv.addObject("result",err);
+            mv.addObject("err_msg",err);
         }
 
         mv.setViewName("index");

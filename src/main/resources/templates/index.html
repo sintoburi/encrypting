@@ -6,12 +6,19 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../static/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
 
-<header>
+<header class="no-drag">
     <div id="header_wrap">
         <p class="header_text">Cipher</p>
+
+        <div id="header__right">
+            <span>회원가입</span>
+            <span>로그인</span>
+        </div>
+
     </div>
 </header>
 
@@ -27,7 +34,36 @@
 
             <h2 class="subtitle">AES256</h2>
 
+            <div id="aes_selectt_wrap">
+
+                <div id="aes_select__key">
+                    <label>
+                        <input type="radio" value="default" name="sel_key">
+                        디폴트 키
+                    </label>
+                    <label>
+                        <input type="radio" value="custom" name="sel_key">
+                    커스텀 키
+                    </label>
+                </div>
+
+                <div id="aes_select_category">
+                    <label>
+                        <input type="radio" value="CBC" name="sel_cat">
+                        <span>CBC</span>
+                    </label>
+                    <label>
+                        <input type="radio" value="ECB" name="sel_cat">
+                        <span>ECB</span>
+
+                    </label>
+                </div>
+
+
+            </div>
+
             <div id="aes_wrap">
+
                 <div id="AES_encoding_wrap">
                     <h2 class="three_text"> 암호화</h2>
                     <form id="AES_ENCODE" action="/aes256_encode" method="POST">
@@ -36,6 +72,7 @@
                             <option value="ISO10126Padding">ISO10126Padding</option>
                             <option value="NoPadding">NoPadding</option>
                         </select>
+
                         <textarea type="text" id="AES__input" name="inputText" placeholder="암호화할 내용을 입력해주세요." class="inputBox"></textarea>
                         <button type="submit" id="AES__submit" class="submitBtn">전송</button>
                     </form>
@@ -61,8 +98,9 @@
                 </div>
             </div>
             <div id="AES_result">
+                <p class="three_text">결과
+                    <span class="err_msg" th:text="${err_msg}"></span></p>
                 <label>
-                    <p class="three_text">결과</p>
                     <textarea th:text="${result}" class="total_result_box"></textarea>
                 </label>
             </div>
@@ -89,4 +127,10 @@
 </footer>
 
 </body>
+
+<!--JS 스크립트 KEY/IV 처리-->
+<script>
+
+</script>
+
 </html>
