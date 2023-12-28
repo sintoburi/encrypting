@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.springtest.Mapper.HomeMapper">
+    <insert id="saveUserInfo" parameterType="com.example.springtest.VO.UserVO">
+        INSERT INTO users (userid, userpwd, salt)
+        VALUES (#{userid}, #{userpwd}, #{salt});
+    </insert>
+
+
+    <select id="getSalt" resultType="String">
+        select salt
+        from users
+        where userid=#{userid}
+    </select>
+
+    <select id="getUserPwd" parameterType="String" resultType="String">
+        select userpwd
+        from users
+        where userid=#{userid}
+    </select>
+
+    <select id="login" resultType="com.example.springtest.VO.UserVO">
+        select userid, userpwd, salt
+        from users
+        where userid = #{userid}
+        and userpwd = #{encryptPwd}
+    </select>
+
+    <update id="updateUserPwd">
+        update users
+        set userpwd=#{encryptPassword}
+        where userid=#{userid}
+    </update>
+</mapper>
