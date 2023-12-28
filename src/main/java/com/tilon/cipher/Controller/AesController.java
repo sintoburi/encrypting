@@ -27,8 +27,7 @@ public class AesController {
 
         ModelAndView mv = new ModelAndView();
 
-        System.out.println("인코딩/들어온 값:"+inputText);
-        System.out.println("padding : " + padding);
+        System.out.println("인코딩/들어온 값:"+inputText +"// padding:" + padding);
 
         String result="";
 
@@ -46,13 +45,13 @@ public class AesController {
             result = Base64.getEncoder().encodeToString(encrypted);
 
             System.out.println("인코딩 결과:" + result);
-            mv.addObject("en_result", result);
+            mv.addObject("result", result);
 
             int db_insert = service.add(padding, inputText, result, "EN" );
             System.out.println("DB삽입결과"+db_insert);
 
         } catch (javax.crypto.IllegalBlockSizeException e) {
-
+            e.printStackTrace();
             String err = "입력 길이가 16바이트의 배가 되지 않음";
             mv.addObject("result", err);
 
@@ -88,21 +87,24 @@ public class AesController {
             String decode = new String(cipher.doFinal(Base64.getDecoder().decode(inputText)), StandardCharsets.UTF_8);
             System.out.println(decode);
 
-            mv.addObject("de_result", decode);
+            mv.addObject("result", decode);
+            int db_insert = service.add(padding, inputText, decode, "DE" );
 
         } catch (java.lang.IllegalArgumentException e) {
+            e.printStackTrace();
             String err = "입력 바이트는 base64 바이트의 경우 2바이트 이상이어야 합니다";
             mv.addObject("result", err);
 
         } catch (javax.crypto.IllegalBlockSizeException e) {
+            e.printStackTrace();
             String err = "패딩된 암호로 복호화할 때 입력 길이는 16의 배수여야 합니다";
             mv.addObject("result", err);
 
         } catch (Exception e){
+            e.printStackTrace();
             System.out.println("ERROR!!");
             String err = "형용할 수 없는 에러가 발생했습니다";
             mv.addObject("result",err);
-            e.printStackTrace();
         }
 
         mv.setViewName("index");

@@ -31,14 +31,13 @@
                 <div id="AES_encoding_wrap">
                     <h2 class="three_text"> 암호화</h2>
                     <form id="AES_ENCODE" action="/aes256_encode" method="POST">
-
-                        <select  class="padding__select" name="padding">
+                        <select  class="padding__select" name="padding" id="paddingSelect_en">
                             <option value="PKCS5Padding">PKCS5Padding</option>
                             <option value="ISO10126Padding">ISO10126Padding</option>
                             <option value="NoPadding">NoPadding</option>
                         </select>
-                        <input type="text" id="AES__input" name="inputText" placeholder="암호화할 내용을 입력해주세요.">
-                        <button type="submit" id="AES__submit">전송</button>
+                        <textarea type="text" id="AES__input" name="inputText" placeholder="암호화할 내용을 입력해주세요." class="inputBox"></textarea>
+                        <button type="submit" id="AES__submit" class="submitBtn">전송</button>
                     </form>
                     <p class="result_box" th:text="${en_result}"></p>
                 </div>
@@ -46,30 +45,35 @@
                 <div id="AES_decoding_wrap">
                     <h2 class="three_text">복호화</h2>
                     <form id="AES_DECODE" method="POST" action="AES256_decode">
-                        <select  class="padding__select" name="padding">
+                        <select  class="padding__select" name="padding" id="paddingSelect_de">
                             <option value="PKCS5Padding">PKCS5Padding</option>
                             <option value="ISO10126Padding">ISO10126Padding</option>
                             <option value="NoPadding">NoPadding</option>
                         </select>
 
-                        <input type="text" id="AES__input_de" name="inputText"  placeholder="복호화할 내용을 입력해주세요.">
-                        <button type="submit" id="AES__submit_de">전송</button>
+                        <label for="AES__input_de"></label>
+                        <textarea id="AES__input_de" name="inputText" placeholder="복호화할 내용을 입력해주세요." class="inputBox"></textarea>
+                        <button type="submit" id="AES__submit_de" class="submitBtn">전송</button>
                     </form>
-                    <p class="result_box" th:text="${de_result}"></p>
+
+                    <div class="result_box" th:text="${de_result}"></div>
 
                 </div>
             </div>
             <div id="AES_result">
-                <p th:text="${result}"></p>
+                <label>
+                    <p class="three_text">결과</p>
+                    <textarea th:text="${result}" class="total_result_box"></textarea>
+                </label>
             </div>
 
 
         </div>
 
-        <hr>
+        <hr class="wake_hr">
 
         <div id="sha_wrap">
-            <h2>SHA 암호화</h2>
+            <h2 class="subtitle">SHA 암호화</h2>
             <form action="${pageContext.servletContext.contextPath}/salt" method="POST">
                 <input name="password" type="text">
                 <input type="submit" value="제출하기">
