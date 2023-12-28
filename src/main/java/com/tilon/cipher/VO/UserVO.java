@@ -1,4 +1,4 @@
-package com.example.springtest.VO;
+package com.tilon.cipher.VO;
 
 import lombok.Data;
 import lombok.ToString;

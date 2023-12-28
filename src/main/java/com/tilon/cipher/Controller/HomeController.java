@@ -1,29 +1,25 @@
-package com.example.springtest.Controller;
+package com.tilon.cipher.Controller;
 
-import com.example.springtest.Mapper.HomeMapper;
-import com.example.springtest.VO.UserVO;
-import com.example.springtest.securePassword;
+import com.tilon.cipher.VO.UserVO;
+import com.tilon.cipher.securePassword;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import com.tilon.cipher.Mapper.HomeMapper;
 
-import javax.servlet.http.HttpSession;
 import java.security.NoSuchAlgorithmException;
 
 @Controller
 public class HomeController {
+
+    @Autowired
     private final HomeMapper homeMapper;
 
     public HomeController(HomeMapper homeMapper) {
         this.homeMapper = homeMapper;
-    }
-
-    @GetMapping("/")
-    public String Home(){
-
-        return "home";
     }
 
     @GetMapping("signup")
@@ -56,17 +52,11 @@ public class HomeController {
 
         String encryptPwd = new securePassword().getEncrypt(input.getUserpwd(), UserSalt);
         UserVO uVO = homeMapper.login(input.getUserid(), encryptPwd);
-
-        System.out.println(uVO);
+        session.setAttribute("userid",uVO.getUserid());
         mav.setViewName("home");
         return mav;
     }
 
-    @GetMapping("board")
-    public String board () {
-
-        return "board";
-    }
     @PostMapping ("signupOk")
     public ModelAndView signup(UserVO uVO) throws NoSuchAlgorithmException {
         ModelAndView mav = new ModelAndView();

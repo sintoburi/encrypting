@@ -1,11 +1,9 @@
-package com.tilon.cipher.Mapper;
+package com.tilon.cipher.Service;
 
 import com.tilon.cipher.VO.UserVO;
-import org.apache.ibatis.annotations.Mapper;
 
+public interface HomeService {
 
-@Mapper
-public interface HomeMapper {
     void saveUserInfo(UserVO uVO);
 
     String getSalt(String userid);
@@ -16,4 +14,5 @@ public interface HomeMapper {
     int updateUserPwd(String encryptPassword, String userid);
 
     UserVO login(String userid, String encryptPwd);
+
 }
