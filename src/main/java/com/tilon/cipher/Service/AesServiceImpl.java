@@ -17,7 +17,7 @@ public class AesServiceImpl implements AesService{
     }
 
     @Override
-    public int add(String padding_val, String inputText, String result, String category) {
-        return mapper.add(padding_val, inputText, result, category);
+    public int add(String padding_val, String inputText, String result, String category, String encryption) {
+        return mapper.add(padding_val, inputText, result, category,encryption);
     }
 }

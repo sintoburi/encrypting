@@ -10,8 +10,8 @@
     </select>
 
     <insert id="add">
-        INSERT INTO tilon.aes (padding_val, TEXT, result, time, category)
-        VALUES (#{padding_val}, #{inputText}, #{result}, DEFAULT, #{category})
+        INSERT INTO tilon.aes (padding_val, TEXT, result, time, category, encryption)
+        VALUES (#{padding_val}, #{inputText}, #{result}, DEFAULT, #{category}, #{encryption})
     </insert>
 
 

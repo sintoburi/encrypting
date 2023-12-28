@@ -12,7 +12,9 @@
 
 <header class="no-drag">
     <div id="header_wrap">
-        <p class="header_text">Cipher</p>
+        <a href="/">
+            <p class="header_text">Cipher</p>
+        </a>
 
         <div id="header__right">
             <span>회원가입</span>
@@ -35,31 +37,33 @@
             <h2 class="subtitle">AES256</h2>
 
             <div id="aes_selectt_wrap">
-
                 <div id="aes_select__key">
                     <label>
-                        <input type="radio" value="default" name="sel_key">
+                        <input type="radio" value="default" name="sel_key" checked>
                         디폴트 키
                     </label>
                     <label>
                         <input type="radio" value="custom" name="sel_key">
-                    커스텀 키
+                        커스텀 키
                     </label>
                 </div>
+            </div>
 
-                <div id="aes_select_category">
-                    <label>
-                        <input type="radio" value="CBC" name="sel_cat">
-                        <span>CBC</span>
-                    </label>
-                    <label>
-                        <input type="radio" value="ECB" name="sel_cat">
-                        <span>ECB</span>
-
-                    </label>
-                </div>
-
-
+            <div id="key_wrap">
+                <label>
+                    <p>IV (16byte)</p>
+                    <input type="text" value="" id="custom_iv" placeholder="사용할 IV값을 입력해주세요">
+                    <span id="input_iv"></span>
+                    <button type="button" class="saveBtn" id="save_iv">저장</button>
+                    <button type="button" class="saveBtn hidden" id="load_iv">불러오기</button>
+                </label>
+                <label>
+                    <p>KEY (32byte)</p>
+                    <input type="text" value="" id="custom_key" placeholder="사용할 KEY값을 입력해주세요">
+                    <span id="input_key"></span>
+                    <button type="button" class="saveBtn" id="save_key">저장</button>
+                    <button type="button" class="saveBtn hidden" id="load_key">불러오기</button>
+                </label>
             </div>
 
             <div id="aes_wrap">
@@ -67,14 +71,45 @@
                 <div id="AES_encoding_wrap">
                     <h2 class="three_text"> 암호화</h2>
                     <form id="AES_ENCODE" action="/aes256_encode" method="POST">
-                        <select  class="padding__select" name="padding" id="paddingSelect_en">
-                            <option value="PKCS5Padding">PKCS5Padding</option>
-                            <option value="ISO10126Padding">ISO10126Padding</option>
-                            <option value="NoPadding">NoPadding</option>
-                        </select>
+
+                        <div class="aes_select_category">
+                            <span>암호화 방식 : </span>
+                            <label>
+                                <input type="radio" value="CBC" name="sel_cat" checked>
+                                <span>CBC</span>
+                            </label>
+                            <label>
+                                <input type="radio" value="ECB" name="sel_cat">
+                                <span>ECB</span>
+
+                            </label>
+                        </div>
+
+                        <div class="radioBox">
+                            <p>페딩 방식 : </p>
+                            <label>
+                                <input type="radio" value="PKCS5Padding" name="padding" checked>
+                                <p>PKCS5Padding</p>
+                            </label>
+
+                            <label>
+                                <input type="radio" value="ISO10126Padding" name="padding">
+                                <p>ISO10126Padding</p>
+                            </label>
+
+                            <label>
+                                <input type="radio" value="NoPadding" name="padding">
+                                <p>NoPadding</p>
+                            </label>
+
+                        </div>
 
                         <textarea type="text" id="AES__input" name="inputText" placeholder="암호화할 내용을 입력해주세요." class="inputBox"></textarea>
                         <button type="submit" id="AES__submit" class="submitBtn">전송</button>
+
+                        <input type="hidden" name="key" id="en_key">
+                        <input type="hidden" name="iv" id="en_iv">
+
                     </form>
                     <p class="result_box" th:text="${en_result}"></p>
                 </div>
@@ -82,15 +117,43 @@
                 <div id="AES_decoding_wrap">
                     <h2 class="three_text">복호화</h2>
                     <form id="AES_DECODE" method="POST" action="AES256_decode">
-                        <select  class="padding__select" name="padding" id="paddingSelect_de">
-                            <option value="PKCS5Padding">PKCS5Padding</option>
-                            <option value="ISO10126Padding">ISO10126Padding</option>
-                            <option value="NoPadding">NoPadding</option>
-                        </select>
+                        <div class="aes_select_category">
+                            <span>암호화 방식 : </span>
+                            <label>
+                                <input type="radio" value="CBC" name="sel_cat" checked>
+                                <span>CBC</span>
+                            </label>
+                            <label>
+                                <input type="radio" value="ECB" name="sel_cat">
+                                <span>ECB</span>
+
+                            </label>
+                        </div>
+
+                        <div class="radioBox">
+                            <p>페딩 방식 : </p>
+                            <label>
+                                <input type="radio" value="PKCS5Padding" name="padding" checked>
+                                <p>PKCS5Padding</p>
+                            </label>
+
+                            <label>
+                                <input type="radio" value="ISO10126Padding" name="padding">
+                                <p>ISO10126Padding</p>
+                            </label>
+
+                            <label>
+                                <input type="radio" value="NoPadding" name="padding">
+                                <p>NoPadding</p>
+                            </label>
+
+                        </div>
 
                         <label for="AES__input_de"></label>
                         <textarea id="AES__input_de" name="inputText" placeholder="복호화할 내용을 입력해주세요." class="inputBox"></textarea>
                         <button type="submit" id="AES__submit_de" class="submitBtn">전송</button>
+                        <input type="hidden" name="key" id="de_key">
+                        <input type="hidden" name="iv" id="de_iv">
                     </form>
 
                     <div class="result_box" th:text="${de_result}"></div>
@@ -101,7 +164,7 @@
                 <p class="three_text">결과
                     <span class="err_msg" th:text="${err_msg}"></span></p>
                 <label>
-                    <textarea th:text="${result}" class="total_result_box"></textarea>
+                    <textarea readonly="readonly" th:text="${result}" class="total_result_box"></textarea>
                 </label>
             </div>
 
@@ -112,7 +175,7 @@
 
         <div id="sha_wrap">
             <h2 class="subtitle">SHA 암호화</h2>
-            <form action="${pageContext.servletContext.contextPath}/salt" method="POST">
+            <form action="/salt" method="POST">
                 <input name="password" type="text">
                 <input type="submit" value="제출하기">
             </form>
@@ -130,6 +193,133 @@
 
 <!--JS 스크립트 KEY/IV 처리-->
 <script>
+
+    const inputKEY = document.querySelector("#custom_key");
+    const outputKEY = document.querySelector("#input_key");
+    const saveKEY = document.querySelector("#save_key");
+    const loadKEY = document.querySelector("#load_key")
+
+    const inputIV = document.querySelector("#custom_iv");
+    const outputIV = document.querySelector("#input_iv");
+    const saveIV = document.querySelector("#save_iv");
+    const loadIV = document.querySelector("#load_iv");
+
+    const en_iv = document.querySelector("#en_iv");
+    const en_key = document.querySelector("#en_key");
+    const de_iv = document.querySelector("#de_iv");
+    const de_key = document.querySelector("#de_key");
+
+    saveKEY.classList.add ("hidden");
+    saveIV.classList.add ("hidden");
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        inputIV.addEventListener("keyup", function(event) {
+            let count = inputChk_iv(event.target);
+
+        })
+
+        inputKEY.addEventListener("keyup", function(event) {
+            let count = inputChk_key(event.target);
+
+        })
+    })
+
+    function inputChk_iv(obj) {
+        let inputText = obj.value;
+        let byteSize = new Blob([inputText]).size;
+
+        if (byteSize === 16 ) {
+            inputIV.style.backgroundColor = "#D5EDF2";
+            saveIV.classList.remove ("hidden");
+        } else {
+            inputIV.style.backgroundColor = "#ff7979";
+        }
+        outputIV.innerHTML = `바이트수 : ${byteSize}`;
+
+        return byteSize;
+
+    }
+
+    function inputChk_key(obj) {
+        let inputText = obj.value;
+        let byteSize = new Blob([inputText]).size;
+
+        if (byteSize === 32 ) {
+            inputKEY.style.backgroundColor = "#D5EDF2";
+            saveKEY.classList.remove ("hidden");
+        } else {
+            inputKEY.style.backgroundColor = "#ff7979";
+        }
+
+        outputKEY.innerHTML = `바이트수 : ${byteSize}`;
+
+        return byteSize;
+
+    }
+
+    //KEY save를 눌렀을 때,
+    saveKEY.addEventListener("click", function () {
+        window.localStorage.setItem('AES_KEY', inputKEY.value);
+        alert("KEY값이 저장되었습니다");
+    } )
+
+    if ( localStorage.getItem('AES_KEY') !== null ) {
+        //불러오기키 활성화
+        loadKEY.classList.remove("hidden");
+    } else {
+        loadKEY.classList.add("hidden");
+    }
+
+    loadKEY.addEventListener("click", function () {
+        inputKEY.value = localStorage.getItem('AES_KEY');
+        inputKEY.style.backgroundColor = "#D5EDF2";
+    })
+
+    //IV 관련
+    saveIV.addEventListener("click", function() {
+        window.localStorage.setItem('AES_IV',inputIV.value)
+        alert("IV값이 저장되었습니다");
+    })
+
+    if ( localStorage.getItem('AES_IV') !== null ) {
+        //불러오기키 활성화
+        loadIV.classList.remove("hidden");
+    } else {
+        loadIV.classList.add("hidden");
+    }
+
+    loadIV.addEventListener("click", function () {
+        inputIV.value = localStorage.getItem('AES_IV');
+        inputIV.style.backgroundColor = "#D5EDF2";
+    })
+
+
+    //디폴트키 셀렉트키 radio button 처리
+
+    const keys_wrap = document.querySelector("#key_wrap");
+    keys_wrap.style.display="none";
+
+    function onRadioChange(event) {
+        var selectedValue = event.target.value;
+        console.log("Selected radio value:", selectedValue);
+        // Add your logic here
+
+        if (selectedValue === "custom") {
+            keys_wrap.style.display="flex";
+        } else {
+            keys_wrap.style.display="none";
+        }
+
+    }
+
+    // Add event listeners to each radio button
+    var radios = document.getElementsByName('sel_key');
+
+    radios.forEach(function(radio) {
+        radio.addEventListener('change', onRadioChange);
+    });
+
 
 </script>
 

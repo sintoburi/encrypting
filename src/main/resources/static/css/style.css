@@ -129,7 +129,7 @@ footer {
 .three_text {
     font-size: var(--font-small);
     font-weight: bold;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 #aes_wrap > div > form {
@@ -180,7 +180,8 @@ footer {
 }
 
 #header__right {
-    display: flex;
+    /*display: flex;*/
+    display: none;
     gap : 15px;
 }
 
@@ -201,4 +202,65 @@ footer {
 .IV_wrap {
     display: flex;
     flex-direction: column;
+}
+
+.radioBox {
+    display: flex;
+    flex-direction: row;
+}
+
+.radioBox > label {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.radioBox > label > p {
+    font-size: 0.7rem;
+}
+
+input[type="radio"] {
+    margin : 0 5px;
+}
+
+.aes_select_category {
+    margin-bottom: 5px;
+}
+
+#key_wrap {
+    margin-top : 5px;
+    padding : 5px 10px 0 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#key_wrap > label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#key_wrap > label > p {
+    font-size: var(--font-tiny);
+    width: 100px;
+}
+
+#key_wrap > label:first-child {
+    margin-bottom: 3px;
+}
+
+#key_wrap > label > input[type="text"] {
+    width: 300px;
+}
+
+#key_wrap > label > span {
+    margin: 0 5px;
+    font-size: 0.7rem;
+}
+
+.saveBtn {
+    font-size: 0.7rem;
+    border : 1px solid #888;
+    border-radius: 5px;
 }
