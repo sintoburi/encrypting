@@ -54,14 +54,14 @@
                     <p>IV (16byte)</p>
                     <input type="text" value="" id="custom_iv" placeholder="사용할 IV값을 입력해주세요">
                     <span id="input_iv"></span>
-                    <button type="button" class="saveBtn" id="save_iv">저장</button>
+                    <button type="button" class="saveBtn hidden" id="save_iv">저장</button>
                     <button type="button" class="saveBtn hidden" id="load_iv">불러오기</button>
                 </label>
                 <label>
                     <p>KEY (32byte)</p>
                     <input type="text" value="" id="custom_key" placeholder="사용할 KEY값을 입력해주세요">
                     <span id="input_key"></span>
-                    <button type="button" class="saveBtn" id="save_key">저장</button>
+                    <button type="button" class="saveBtn hidden" id="save_key">저장</button>
                     <button type="button" class="saveBtn hidden" id="load_key">불러오기</button>
                 </label>
             </div>
@@ -104,14 +104,13 @@
 
                         </div>
 
-                        <textarea type="text" id="AES__input" name="inputText" placeholder="암호화할 내용을 입력해주세요." class="inputBox"></textarea>
+                        <textarea id="AES__input" name="inputText" placeholder="암호화할 내용을 입력해주세요." class="inputBox"></textarea>
                         <button type="submit" id="AES__submit" class="submitBtn">전송</button>
 
                         <input type="hidden" name="key" id="en_key">
                         <input type="hidden" name="iv" id="en_iv">
 
                     </form>
-                    <p class="result_box" th:text="${en_result}"></p>
                 </div>
 
                 <div id="AES_decoding_wrap">
@@ -156,8 +155,6 @@
                         <input type="hidden" name="iv" id="de_iv">
                     </form>
 
-                    <div class="result_box" th:text="${de_result}"></div>
-
                 </div>
             </div>
             <div id="AES_result">
@@ -174,11 +171,51 @@
         <hr class="wake_hr">
 
         <div id="sha_wrap">
-            <h2 class="subtitle">SHA 암호화</h2>
-            <form action="/salt" method="POST">
-                <input name="password" type="text">
-                <input type="submit" value="제출하기">
-            </form>
+            <h2 class="subtitle">
+                SHA 암호화
+                <span class="err_msg" th:text="${sha_result}"></span>
+            </h2>
+
+            <div class="sha_inner_wrap">
+
+                <div class="sha_wrap">
+                    <h2 class="three_text">회원가입</h2>
+                    <form action="/signupOk" method="POST" class="sha_form">
+                        <label>
+                            <span>ID</span>
+                            <input type="text" name="userid" id="join_userid">
+                        </label>
+                        <label>
+                            <span>PW</span>
+                            <input type="password" name="userpwd" id="join_userpwd">
+                        </label>
+                        <input type="submit" value="회원가입" class="submitBtn">
+                    </form>
+                </div>
+
+                <div class="sha_wrap">
+                    <h2 class="three_text">로그인</h2>
+                    <form action="/loginOk" method="POST" class="sha_form" onsubmit="return formCheck(event)">
+                        <label>
+                            <span>ID</span>
+                            <input type="text" name="userid" id="userID">
+                        </label>
+
+                        <label>
+                            <span>PW</span>
+                            <input type="password" name="userpwd" id="password">
+                        </label>
+                        <input type="submit" value="로그인" class="submitBtn">
+                    </form>
+                </div>
+
+            </div>
+
+
+
+
+
+
         </div>
 
     </div>
@@ -209,19 +246,14 @@
     const de_iv = document.querySelector("#de_iv");
     const de_key = document.querySelector("#de_key");
 
-    saveKEY.classList.add ("hidden");
-    saveIV.classList.add ("hidden");
-
 
     document.addEventListener("DOMContentLoaded", function() {
         inputIV.addEventListener("keyup", function(event) {
-            let count = inputChk_iv(event.target);
-
+            inputChk_iv(event.target);
         })
 
         inputKEY.addEventListener("keyup", function(event) {
-            let count = inputChk_key(event.target);
-
+            inputChk_key(event.target);
         })
     })
 
@@ -231,9 +263,17 @@
 
         if (byteSize === 16 ) {
             inputIV.style.backgroundColor = "#D5EDF2";
-            saveIV.classList.remove ("hidden");
+            // saveIV.classList.remove ("hidden");
+
+            en_iv.value = inputIV.value;
+            de_iv.value = inputIV.value;
+
+
         } else {
             inputIV.style.backgroundColor = "#ff7979";
+            en_iv.value = "d";
+            en_key.value = "d";
+
         }
         outputIV.innerHTML = `바이트수 : ${byteSize}`;
 
@@ -247,9 +287,15 @@
 
         if (byteSize === 32 ) {
             inputKEY.style.backgroundColor = "#D5EDF2";
-            saveKEY.classList.remove ("hidden");
+            // saveKEY.classList.remove ("hidden");
+
+            en_key.value = inputKEY.value;
+            de_key.value = inputKEY.value;
+
         } else {
             inputKEY.style.backgroundColor = "#ff7979";
+            de_iv.value = "d";
+            de_key.value = "d";
         }
 
         outputKEY.innerHTML = `바이트수 : ${byteSize}`;
@@ -274,6 +320,7 @@
     loadKEY.addEventListener("click", function () {
         inputKEY.value = localStorage.getItem('AES_KEY');
         inputKEY.style.backgroundColor = "#D5EDF2";
+        inputChk_key(inputKEY);
     })
 
     //IV 관련
@@ -292,17 +339,16 @@
     loadIV.addEventListener("click", function () {
         inputIV.value = localStorage.getItem('AES_IV');
         inputIV.style.backgroundColor = "#D5EDF2";
+        inputChk_iv(inputIV);
     })
 
 
     //디폴트키 셀렉트키 radio button 처리
-
     const keys_wrap = document.querySelector("#key_wrap");
     keys_wrap.style.display="none";
 
     function onRadioChange(event) {
         var selectedValue = event.target.value;
-        console.log("Selected radio value:", selectedValue);
         // Add your logic here
 
         if (selectedValue === "custom") {
@@ -321,6 +367,26 @@
     });
 
 
+</script>
+
+<script>
+    //로그인 체크 스크립트
+    function formCheck(e){
+        let userID = document.getElementById("userID").value;
+        let password = document.getElementById("password").value;
+
+        if(userID === null || userID === "") {
+            e.preventDefault();
+            alert('아이디를 입력하세요');
+            return false;
+        }
+        if(password === null || password === "") {
+            e.preventDefault();
+            alert('비밀번호를 입력하세요');
+            return false;
+        }
+        return true;
+    }
 </script>
 
 </html>

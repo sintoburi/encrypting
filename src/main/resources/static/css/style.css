@@ -264,3 +264,41 @@ input[type="radio"] {
     border : 1px solid #888;
     border-radius: 5px;
 }
+
+.sha_wrap {
+    display: flex;
+    flex-direction: column;
+}
+
+.sha_form {
+    display: flex;
+    flex-direction: column;
+    gap : 5px;
+
+    align-items: flex-start;
+    justify-content: center;
+
+    position: relative;
+    margin-bottom: 24px;
+}
+
+.sha_inner_wrap {
+    display: flex;
+    flex-direction: row;
+}
+
+.sha_inner_wrap > .sha_wrap {
+    padding : 5px;
+    width: calc(50% - 10px);
+}
+
+.sha_form > label > span {
+    display: inline-block;
+    width: 50px;
+    text-align: center;
+}
+
+.sha_form > .submitBtn {
+    transform: translateX(130px);
+    width: 100px;
+}

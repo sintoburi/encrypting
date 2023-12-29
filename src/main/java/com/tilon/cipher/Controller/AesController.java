@@ -19,14 +19,25 @@ public class AesController {
     @Autowired
     AesService service;
 
-    private static String KEY = "aaaaaaaaaabbbbbbbbbbcccccccccc12";
-    private static String IV = "asdfasdfasdfasdf";
+    private static final String DEFAULT_KEY = "aaaaaaaaaabbbbbbbbbbcccccccccc12";
+    private static final String DEFAULT_IV = "asdfasdfasdfasdf";
 
     //암호화
     @PostMapping("/aes256_encode")
-    public ModelAndView aes256_encode(String inputText, String padding, String sel_cat){
+    public ModelAndView aes256_encode(String inputText, String padding, String sel_cat, String key, String iv){
 
         ModelAndView mv = new ModelAndView();
+
+        System.out.println("들어온 iv, key 값" + iv + "," + key);
+
+        if (Objects.equals(iv, "d") || iv == null ) {
+            iv = DEFAULT_IV;
+        }
+
+        if (Objects.equals(key, "d") || key == null ) {
+            key = DEFAULT_KEY;
+        }
+
 
         System.out.println("인코딩/들어온 값:"+inputText +"// padding:" + padding);
         System.out.println("들어온 암호화 방식" + sel_cat);
@@ -39,10 +50,10 @@ public class AesController {
 //            String algorithms = "AES/CBC/" + padding;
             Cipher cipher = Cipher.getInstance(algorithms);
 
-            SecretKeySpec keySpec = new SecretKeySpec(KEY.getBytes(), "AES");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
 
             if (Objects.equals(sel_cat, "CBC")) {
-                IvParameterSpec ivParameterSpec = new IvParameterSpec(IV.getBytes());
+                IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
                 cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParameterSpec);
             } else {
                 cipher.init(Cipher.ENCRYPT_MODE, keySpec);
@@ -76,8 +87,16 @@ public class AesController {
 
     //복호화
     @PostMapping ("/AES256_decode")
-    public ModelAndView  decode (String inputText, String padding, String sel_cat){
+    public ModelAndView  decode (String inputText, String padding, String sel_cat, String key, String iv){
         ModelAndView mv = new ModelAndView();
+
+        if (Objects.equals(iv, "d") || iv == null ) {
+            iv = DEFAULT_IV;
+        }
+
+        if (Objects.equals(key, "d") || key == null ) {
+            key = DEFAULT_KEY;
+        }
 
         System.out.println("디코딩/들어온 값:" + inputText);
         String result="";
@@ -88,10 +107,10 @@ public class AesController {
         try {
 
             Cipher cipher = Cipher.getInstance(algorithms);
-            SecretKeySpec keySpec = new SecretKeySpec(KEY.getBytes(), "AES");
+            SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
 
             if (sel_cat.equals("CBC")) {
-                IvParameterSpec ivParameterSpec = new IvParameterSpec(IV.getBytes());
+                IvParameterSpec ivParameterSpec = new IvParameterSpec(iv.getBytes());
                 cipher.init(Cipher.DECRYPT_MODE, keySpec, ivParameterSpec);
             } else {
                 cipher.init(Cipher.DECRYPT_MODE, keySpec);
@@ -112,6 +131,12 @@ public class AesController {
             e.printStackTrace();
             String err = "패딩된 암호로 복호화할 때 입력 길이는 16의 배수여야 합니다";
             mv.addObject("err_msg", err);
+
+        } catch (javax.crypto.BadPaddingException e) {
+            e.printStackTrace();
+            String err = "최종 블록이 제대로 패딩되지 않았습니다. 페딩 방식을 확인해주세요";
+            mv.addObject("err_msg",err);
+
 
         } catch (Exception e){
             e.printStackTrace();
