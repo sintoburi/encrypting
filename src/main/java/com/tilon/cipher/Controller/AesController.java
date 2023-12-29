@@ -28,20 +28,13 @@ public class AesController {
 
         ModelAndView mv = new ModelAndView();
 
-        System.out.println("들어온 iv, key 값" + iv + "," + key);
-
-        if (Objects.equals(iv, "d") || iv == null ) {
+        if (iv.equals("d") || iv == null || iv.isEmpty()) {
             iv = DEFAULT_IV;
         }
 
-        if (Objects.equals(key, "d") || key == null ) {
+        if (key.equals("d") || key == null || key.isEmpty() ) {
             key = DEFAULT_KEY;
         }
-
-
-        System.out.println("인코딩/들어온 값:"+inputText +"// padding:" + padding);
-        System.out.println("들어온 암호화 방식" + sel_cat);
-
         String result="";
 
         try {
@@ -90,11 +83,11 @@ public class AesController {
     public ModelAndView  decode (String inputText, String padding, String sel_cat, String key, String iv){
         ModelAndView mv = new ModelAndView();
 
-        if (Objects.equals(iv, "d") || iv == null ) {
+        if (iv.equals("d") || iv == null || iv.isEmpty()) {
             iv = DEFAULT_IV;
         }
 
-        if (Objects.equals(key, "d") || key == null ) {
+        if (key.equals("d") || key == null || key.isEmpty() ) {
             key = DEFAULT_KEY;
         }
 
