@@ -302,3 +302,8 @@ input[type="radio"] {
     transform: translateX(130px);
     width: 100px;
 }
+
+.AES_form > .submitBtn {
+    transform: translateX(283px);
+}
+
