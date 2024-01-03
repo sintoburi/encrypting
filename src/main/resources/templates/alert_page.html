@@ -1,0 +1,11 @@
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        var msg = /*[[${msg}]]*/ 'default message';
+        if(msg !== null && msg !== 'default message') {
+            alert(msg);
+        }
+        history.go(-1);
+    };
+    /*]]>*/
+</script>

@@ -14,9 +14,6 @@ public class MainController {
     @GetMapping("/")
     public ModelAndView index() {
         ModelAndView mv = new ModelAndView();
-
-        System.out.println(service.sel("a"));
-
         mv.setViewName("index");
 
         return mv;

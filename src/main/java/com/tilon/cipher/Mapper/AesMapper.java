@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface AesMapper {
 
     String sel (String input);
+    int add (String padding_val, String inputText, String result, String category, String encryption);
 
 
 }
